@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 const { exec, execSync } = require('child_process');
-const port = process.env.SERVER_PORT || process.env.PORT || 3000;        
-const UUID = process.env.UUID || '62252678-bec9-4eee-9456-095aa59b2bd1'; //
+const port = process.env.SERVER_PORT || process.env.PORT || 7000;        
+const UUID = process.env.UUID || '38f3f612-a289-44be-a4b6-ca4487dab6c4'; //
 const NEZHA_SERVER = process.env.NEZHA_SERVER || '';     
 const NEZHA_PORT = process.env.NEZHA_PORT || '';                     //
 const NEZHA_KEY = process.env.NEZHA_KEY || '';
-const ARGO_DOMAIN = process.env.ARGO_DOMAIN || '';     //
-const ARGO_AUTH = process.env.ARGO_AUTH || '';
+const ARGO_DOMAIN = process.env.ARGO_DOMAIN || 'choreo08.kroiyn21.dpdns.org';     //
+const ARGO_AUTH = process.env.ARGO_AUTH || 'eyJhIjoiOGYxMDhlYTVkNGRlMDczNTZkOGFjNWZmMjBiOGRiZTIiLCJ0IjoiMGRlYzRlM2YtYmVhNi00ZjE4LWE4YzctNDE3MDUwYTVlZjU4IiwicyI6Ik1HVmxPR1kxTmpVdE4yVTJaUzAwTXpFMExUazNaV010TURGaU1XUXhaVFppTURJNSJ9';
 const CFIP = process.env.CFIP || 'na.ma';
 const NAME = process.env.NAME || 'Choreo';
 
@@ -23,7 +23,7 @@ const metaInfo = execSync(
 const ISP = metaInfo.trim();
 
 // sub subscription
-app.get('/sub', (req, res) => {
+app.get('/sub2', (req, res) => {
   const VMESS = { v: '2', ps: `${NAME}-${ISP}`, add: CFIP, port: '8443', id: UUID, aid: '0', scy: 'none', net: 'ws', type: 'none', host: ARGO_DOMAIN, path: '/vmess?ed=2048', tls: 'tls', sni: ARGO_DOMAIN, alpn: '' };
   const vlessURL = `vless://${UUID}@${CFIP}:8443?encryption=none&security=tls&sni=${ARGO_DOMAIN}&type=ws&host=${ARGO_DOMAIN}&path=%2Fvless?ed=2048#${NAME}-${ISP}`;
   const vmessURL = `vmess://${Buffer.from(JSON.stringify(VMESS)).toString('base64')}`;
